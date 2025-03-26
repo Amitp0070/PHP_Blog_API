@@ -10,3 +10,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/students', [StudentController::class, 'students_list']);
+Route::post('/add-student', [StudentController::class, 'addStudent']);
+Route::put('/update-student', [StudentController::class, 'updateStudent']);
+Route::delete('/delete-student/{id}', [StudentController::class, 'deleteStudent']);
+Route::get('/search-student/{name}', [StudentController::class, 'searchStudent']);
