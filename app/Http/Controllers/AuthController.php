@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -24,7 +25,24 @@ class AuthController extends Controller
         // $user->save();
         // return response()->json(['message' => 'User created successfully', "result" => $user], 201);
     }
-    public function login(Request $request) {
-        return "Login function";
+    public function login(Request $request)
+    {
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+            $authUser = Auth::user();
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged in Successfully',
+                'token' => $authUser->createToken('API Token')->plainTextToken,
+                'token_type' => 'bearer'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Email Or Password does not matched',
+            ], 401);
+        }
     }
 }

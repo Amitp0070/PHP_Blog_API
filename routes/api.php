@@ -11,13 +11,16 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/students', [StudentController::class, 'students_list']);
-Route::post('/add-student', [StudentController::class, 'addStudent']);
-Route::put('/update-student', [StudentController::class, 'updateStudent']);
-Route::delete('/delete-student/{id}', [StudentController::class, 'deleteStudent']);
+Route::post('signUp', [AuthController::class, 'signUp']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::group(['middleware'=>'auth:sanctum'], function(){
+    Route::get('/students', [StudentController::class, 'students_list']);
+    Route::post('/add-student', [StudentController::class, 'addStudent']);
+    Route::put('/update-student', [StudentController::class, 'updateStudent']);
+    Route::delete('/delete-student/{id}', [StudentController::class, 'deleteStudent']);
+    
+});
 Route::get('/search-student/{name}', [StudentController::class, 'searchStudent']);
 
 Route::resource('member', MemberController::class);
-
-Route::post('signUp', [AuthController::class, 'signUp']);
-Route::post('login', [AuthController::class, 'login']);
