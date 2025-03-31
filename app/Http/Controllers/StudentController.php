@@ -42,9 +42,9 @@ class StudentController extends Controller
         }
     }
 
-    function updateStudent(Request $request)
+    function updateStudent(Request $request, $id)
     {
-        $student = Student::find($request->id);
+        $student = Student::find($id);
         $student->name = $request->name;
         $student->email = $request->email;
         $student->phone = $request->phone;
